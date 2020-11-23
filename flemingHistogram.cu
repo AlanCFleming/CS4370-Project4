@@ -21,7 +21,7 @@ __global__ void histogram(int* input, int* histogram, int size) {
 	int stride = blockDim.x * gridDim.x;
 	//preform histogram calculation
 	while( i < size) {
-		atomicAdd( &(histogram[input[i]]), 1));
+		atomicAdd( &(histogram[input[i]]), 1);
 		i += stride;
 	}
 }	
@@ -40,7 +40,7 @@ __global__ void sharedHistogram(int* input, int* histogram, int size) {
 	int stride = blockDim.x * gridDim.x;
 	//preform histogram calculation
 	while( i < size) {
-		atomicAdd( &(privateHistogram[input[i]]), 1));
+		atomicAdd( &(privateHistogram[input[i]]), 1);
 		i += stride;
 	}
 
@@ -49,7 +49,7 @@ __global__ void sharedHistogram(int* input, int* histogram, int size) {
 
 	//add private histogram to public histogram
 	if(threadIdx.x < 256) {
-		atomixAdd( &(histogram[threadIdx.x]), privateHistogram[threadIdx.x]);
+		atomicAdd( &(histogram[threadIdx.x]), privateHistogram[threadIdx.x]);
 	}
 }
 
@@ -167,7 +167,7 @@ int main() {
 	printf("--WITH SHARED MEMORY--\nCPU Runtime: %f\nGpu Runtime: %f\nSpeedup: %f\n", (double)cpuTime, (double)sharedGPUTime, double(cpuTime / sharedGPUTime));
 
 	//verify results
-	bool valid = true;
+	valid = true;
 	for(int i = 0; i < MATRIXSIZE; i++) {	
 		if(cpuResult[i] != sharedGPUResult[i]) {
 			valid = false;
