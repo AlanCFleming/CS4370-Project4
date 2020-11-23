@@ -14,4 +14,16 @@ void cpuHistogram(int* input, int* histogram, int size) {
 	}
 }
 
+__global__ void histogram(int* input, int* histogram, int size) {
+	//get starting index for thread
+	int i = threadIdx.x + blockIdx.x * blockDim.x;
+	//calculate stride
+	int stride = blockDim.x * gridDim.x;
+	//preform histogram calculation
+	while( i < size) {
+		atomicAdd( &(histogram[input[i]], 1));
+		i += stride;
+	}
+}	
+
 
