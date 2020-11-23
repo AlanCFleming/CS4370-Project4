@@ -128,7 +128,7 @@ int main() {
 
 	//verify results
 	bool valid = true;
-	for(int i = 0; i < MATRIXSIZE; i++) {	
+	for(int i = 0; i < 256; i++) {	
 		if(cpuResult[i] != basicGPUResult[i]) {
 			valid = false;
 			break;
@@ -167,7 +167,7 @@ int main() {
 
 	//verify results
 	valid = true;
-	for(int i = 0; i < MATRIXSIZE; i++) {	
+	for(int i = 0; i < 256; i++) {	
 		if(cpuResult[i] != sharedGPUResult[i]) {
 			valid = false;
 			break;
