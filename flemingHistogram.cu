@@ -8,4 +8,10 @@
 #define MATRIXSIZE 2048
 #define BLOCKSIZE 1024
 
+void cpuHistogram(int* input, int* histogram, int size) {
+	for(int i = 0; i < size; i++) {
+		histrogram[input[i]]++;
+	}
+}
+
 
