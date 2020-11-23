@@ -85,4 +85,20 @@ int main() {
 	//Calculate runtime
 	float cpuTime= (float(t2-t1)/CLOCKS_PER_SEC*1000);
 
+	//Allocate memory on GPU compution. dev_b is used to store the results of the first pass of reduction
+	int *dev_input, *dev_basicGPU, *dev_sharedGPU;
+	cudaMalloc((void **)(&dev_input), MATRIXSIZE *sizeof(int));
+	cudaMalloc((void **)(&dev_basicGPU), 256 *sizeof(int));
+	cudaMalloc((void **)(&dev_sharedGPU), 256 *sizeof(int));
+
+	//copy memory to gpu
+	cudaMemcpy(dev_input, input, MATRIXSIZE * sizeof(int), cudaMemcpyHostToDevice);
+	cudaMemcpy(dev_basicGPU, basicGPUResult, 256 * sizeof(int), cudaMemcpyHostToDevice);
+	cudaMemcpy(dev_sharedGPU, sharedGPUResult, 256 * sizeof(int), cudaMemcpyHostToDevice);
+
+	//calculate dimentions for gpu
+	dim3 dimBlock(BLOCKSIZE);
+	dim3 dimGrid(ceil(double(MATRIXSIZE)/dimBlock.x));
+
+	return 0;
 }
