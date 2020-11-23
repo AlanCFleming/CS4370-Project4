@@ -142,7 +142,6 @@ int main() {
 
 	//~~WITH SHARED MEMORY~~
 	//Set up cuda events for recording runtime
-	cudaEvent_t start,stop;
 	float sharedGPUTime; 
 	cudaEventCreate(&start);
 	cudaEventCreate(&stop);
