@@ -52,3 +52,37 @@ __global__ void sharedHistogram(int* input, int* histogram, int size) {
 		atomixAdd( &(histogram[threadIdx.x]), privateHistogram[threadIdx.x]);
 	}
 }
+
+
+int main() {
+	int *input = (int *)malloc(sizeof(int) * MATRIXSIZE); //allocate space for array
+	int *cpuResult = (int *)malloc(sizeof(int) * 256); //allocate space for cpu output array
+	int *basicGPUResult = (int *)malloc(sizeof(int) * 256); //allocate space for gpu output array using global memory
+	int *sharedGPUResult = (int *)malloc(sizeof(int) * 256); //allocate space for gpu output array using shared memory
+
+	//intialize the input array
+	int init = 1325;
+	for(int i=0; i < MATRIXSIZE; i++){
+		init= 3125 * init % 65537;
+		input[i]= init % 256;
+	}
+	//clear the output arrays to ensure proper adding
+	for(int i = 0; i < 256; i++) {
+		cpuResult[i] = 0;
+		basicGPUResult[i] = 0;
+		sharedGPUResult[i] = 0;
+	}
+
+	//Test CPU
+	//Get start time
+	clock_t t1 = clock();
+	//Calculate reduction
+	
+	cpuHistogram(input, cpuResult, MATRIXSIZE);
+	
+	//Get stop time
+	clock_t t2 = clock();
+	//Calculate runtime
+	float cpuTime= (float(t2-t1)/CLOCKS_PER_SEC*1000);
+
+}
