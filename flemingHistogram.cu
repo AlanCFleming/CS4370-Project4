@@ -21,7 +21,7 @@ __global__ void histogram(int* input, int* histogram, int size) {
 	int stride = blockDim.x * gridDim.x;
 	//preform histogram calculation
 	while( i < size) {
-		atomicAdd( &(histogram[input[i]], 1));
+		atomicAdd( &(histogram[input[i]]), 1));
 		i += stride;
 	}
 }	
@@ -40,7 +40,7 @@ __global__ void sharedHistogram(int* input, int* histogram, int size) {
 	int stride = blockDim.x * gridDim.x;
 	//preform histogram calculation
 	while( i < size) {
-		atomicAdd( &(privateHistogram[input[i]], 1));
+		atomicAdd( &(privateHistogram[input[i]]), 1));
 		i += stride;
 	}
 
